@@ -1,0 +1,3 @@
+0 Tiger
+1 Lion
+2 Jaguar
