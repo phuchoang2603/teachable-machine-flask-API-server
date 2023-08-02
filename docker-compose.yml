@@ -1,0 +1,7 @@
+version: "3.2"
+services:
+  flask:
+    build: .
+    image: teachable-machine
+    ports:
+      - "8080:8080"
