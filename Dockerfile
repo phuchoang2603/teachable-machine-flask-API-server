@@ -1,20 +1,27 @@
 
-# set base image (host OS)
-FROM python:3.8
-
-# set the working directory in the container
-WORKDIR /code
-
-# install dependencies
+FROM python:3.7
 RUN pip install --upgrade pip
+# Allow statements and log messages to immediately appear in the Knative logs
+ENV PYTHONUNBUFFERED True
+
+# Copy local code to the container image.
+ENV APP_HOME /app
+WORKDIR $APP_HOME
 
 # copy the dependencies file to the working directory
 COPY requirements.txt .
 
+# install dependencies
 RUN pip install -r requirements.txt
 
-# copy the content of the local src directory to the working directory
 COPY . .
 
-# command to run on container start
-CMD [ "python3", "main.py" ]
+# Install production dependencies.
+RUN pip install Flask gunicorn
+
+# Run the web service on container startup. Here we use the gunicorn
+# webserver, with one worker process and 8 threads.
+# For environments with multiple CPU cores, increase the number of workers
+# to be equal to the cores available.
+# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
