@@ -1,3 +1,2 @@
-0 Tiger
-1 Lion
-2 Jaguar
+0 Fake
+1 Authentic

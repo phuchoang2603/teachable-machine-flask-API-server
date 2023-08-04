@@ -24,11 +24,12 @@ def prediction():
     url = request.args.get('url')
 
     if apikey == "1234":
-        image_url = tf.keras.utils.get_file('image.jpg', 'https://parspng.com/wp-content/uploads/2022/05/tigerpng.parspng.com-3.png')
-        os.remove(image_url)
-        image_url = tf.keras.utils.get_file('image.jpg', url)
+        image_url = tf.keras.utils.get_file('image.jpg', origin =url, cache_dir="~/images")
+        # os.remove(image_url)
+        # image_url = tf.keras.utils.get_file('image.jpg', url)
         
         image = tf.keras.preprocessing.image.load_img(image_url, target_size=(224, 224))
+        os.remove(image_url)
         image_array = np.asarray(image)
         normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
         data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
@@ -37,8 +38,8 @@ def prediction():
         # Predicts the model
         prediction = model.predict(data)
         index = np.argmax(prediction)
-        class_name = class_names[index].replace("\n", "")
-        confidence_score = "{:.2f}".format(prediction[0][index])
+        class_name = class_names[index][2:].replace("\n", "")
+        confidence_score = float(prediction[0][index])
 
         return {
             "class_name": class_name,
