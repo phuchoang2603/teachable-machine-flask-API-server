@@ -1,5 +1,7 @@
 # Flask Backend REST API Server for Teachable Machine Model
 
+Current API Endpoint, hosting at: https://jellyfish-app-uq2na.ondigitalocean.app/
+
 This repository contains the code for a custom API server that uses Keras models and is deployed using `Google Cloud Run` (or `Digital Ocean App Platform`). The purpose of this server is to provide a framework for building and deploying a RESTful API that can handle Keras models.
 
 The server relies on the Flask framework, which is a lightweight and flexible framework for building web applications in Python. It provides the necessary infrastructure to handle HTTP requests and responses.
